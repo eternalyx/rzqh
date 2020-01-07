@@ -6,7 +6,7 @@ spring:
       driverClassName: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
       url: jdbc:log4jdbc:mysql://101.133.129.9:3306/rzqh?serverTimezone=Asia/Shanghai&characterEncoding=utf8&useSSL=false
       username: root
-      password: 123456
+      password: root
 
       # 初始化配置
       initial-size: 3
