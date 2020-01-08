@@ -20,6 +20,11 @@ public class DeptDto implements Serializable {
 
     private String name;
 
+    private String charge;
+
+    private String supervisor;
+
+
     @NotNull
     private Boolean enabled;
 

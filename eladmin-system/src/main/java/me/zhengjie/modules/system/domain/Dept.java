@@ -32,6 +32,12 @@ public class Dept implements Serializable {
     @NotBlank
     private String name;
 
+    @Column(name = "charge")
+    private String charge;
+
+    @Column(name = "supervisor")
+    private String supervisor;
+
     @NotNull
     private Boolean enabled;
 
