@@ -45,6 +45,9 @@ public class SwaggerConfig {
     @Value("${swagger.enabled}")
     private Boolean enabled;
 
+    @Value("${swagger.needToken}")
+    private Boolean needToken;
+
     @Bean
     @SuppressWarnings("all")
     public Docket createRestApi() {
@@ -54,7 +57,7 @@ public class SwaggerConfig {
                 .modelRef(new ModelRef("string"))
                 .parameterType("header")
                 .defaultValue(tokenStartWith + " ")
-                .required(true)
+                .required(needToken)
                 .build();
         pars.add(ticketPar.build());
         return new Docket(DocumentationType.SWAGGER_2)
