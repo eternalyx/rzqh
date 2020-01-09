@@ -121,6 +121,15 @@ public class UserServiceImpl implements UserService {
         user.setPhone(resources.getPhone());
         user.setNickName(resources.getNickName());
         user.setSex(resources.getSex());
+
+        user.setContractTimeBegin(resources.getContractTimeBegin());
+        user.setContractTimeEnd(resources.getContractTimeEnd());
+        user.setResumeUrl(resources.getResumeUrl());
+        user.setLeavingCertificateUrl(resources.getLeavingCertificateUrl());
+        user.setDiplomaCertificateUrl(resources.getDiplomaCertificateUrl());
+        user.setIdCardNumber(resources.getIdCardNumber());
+        user.setHomeAddress(resources.getHomeAddress());
+        user.setLeavingDate(resources.getLeavingDate());
         userRepository.save(user);
     }
 

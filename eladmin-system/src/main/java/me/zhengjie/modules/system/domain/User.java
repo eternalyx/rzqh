@@ -75,6 +75,33 @@ public class User implements Serializable {
     @JoinColumn(name = "dept_id")
     private Dept dept;
 
+    /**
+     * 人在起航新增字段
+     */
+    @Column(name = "contract_time_begin")
+    private Timestamp contractTimeBegin;
+
+    @Column(name = "contract_time_end")
+    private Timestamp contractTimeEnd;
+
+    @Column(name = "resume_url")
+    private String resumeUrl;
+
+    @Column(name = "leaving_certificate_url")
+    private String leavingCertificateUrl;
+
+    @Column(name = "diploma_certificate_url")
+    private String diplomaCertificateUrl;
+
+    @Column(name = "id_card_number")
+    private String idCardNumber;
+
+    @Column(name = "home_address")
+    private String homeAddress;
+
+    @Column(name = "leaving_date")
+    private Timestamp leavingDate;
+
     public @interface Update {}
 
     @Override

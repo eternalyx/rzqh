@@ -48,4 +48,20 @@ public class UserDto implements Serializable {
     private Long deptId;
 
     private Timestamp createTime;
+
+    private Timestamp contractTimeBegin;
+
+    private Timestamp contractTimeEnd;
+
+    private String resumeUrl;
+
+    private String leavingCertificateUrl;
+
+    private String diplomaCertificateUrl;
+
+    private String idCardNumber;
+
+    private String homeAddress;
+
+    private Timestamp leavingDate;
 }
