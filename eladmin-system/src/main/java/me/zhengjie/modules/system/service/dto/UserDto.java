@@ -31,6 +31,8 @@ public class UserDto implements Serializable {
 
     private int status;
 
+    private int isDelete;
+
     @JsonIgnore
     private String password;
 
@@ -44,23 +46,7 @@ public class UserDto implements Serializable {
 
     private DeptSmallDto dept;
 
-    private String deptId;
-
     private Timestamp createTime;
 
-    private Timestamp contractTimeBegin;
-
-    private Timestamp contractTimeEnd;
-
-    private String resumeUrl;
-
-    private String leavingCertificateUrl;
-
-    private String diplomaCertificateUrl;
-
-    private String idCardNumber;
-
-    private String homeAddress;
-
-    private Timestamp leavingDate;
+    private Timestamp updateTime;
 }

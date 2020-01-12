@@ -18,6 +18,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,26 +43,26 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final RedisUtils redisUtils;
     private final UserAvatarRepository userAvatarRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${file.avatar}")
     private String avatar;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RedisUtils redisUtils, UserAvatarRepository userAvatarRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RedisUtils redisUtils, UserAvatarRepository userAvatarRepository,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.redisUtils = redisUtils;
         this.userAvatarRepository = userAvatarRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    @Cacheable
     public Object queryAll(UserQueryCriteria criteria, Pageable pageable) {
         Page<User> page = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(userMapper::toDto));
     }
 
     @Override
-    @Cacheable
     public List<UserDto> queryAll(UserQueryCriteria criteria) {
         List<User> users = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
         return userMapper.toDto(users);
@@ -84,6 +86,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.findByEmail(resources.getEmail())!=null){
             throw new EntityExistException(User.class,"email",resources.getEmail());
         }
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
         return userMapper.toDto(userRepository.save(resources));
     }
 
@@ -113,6 +116,8 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setUsername(resources.getUsername());
+        user.setUserAvatar(resources.getUserAvatar());
+        user.setPassword(passwordEncoder.encode(StringUtils.isEmpty(resources.getPassword()) ? "123456" : resources.getPassword()));
         user.setEmail(resources.getEmail());
         user.setStatus(resources.getStatus());
         user.setRoles(resources.getRoles());
@@ -120,7 +125,8 @@ public class UserServiceImpl implements UserService {
         user.setJob(resources.getJob());
         user.setPhone(resources.getPhone());
         user.setNickName(resources.getNickName());
-        user.setSex(resources.getSex());
+        user.setIsDelete(resources.getIsDelete());
+        user.setUpdateTime(new Timestamp(new Date().getTime()));
         userRepository.save(user);
     }
 
@@ -131,7 +137,6 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(resources.getId()).orElseGet(User::new);
         user.setNickName(resources.getNickName());
         user.setPhone(resources.getPhone());
-        user.setSex(resources.getSex());
         userRepository.save(user);
     }
 
@@ -145,7 +150,6 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    @Cacheable(key = "'loadUserByUsername:'+#p0")
     public UserDto findByName(String userName) {
         User user;
         if(ValidationUtil.isEmail(userName)){

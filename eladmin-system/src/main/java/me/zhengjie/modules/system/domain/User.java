@@ -34,6 +34,9 @@ public class User implements Serializable {
 
     private int status;
 
+    @Column(name = "is_delete")
+    private int isDelete;
+
     @NotBlank
     @Column(unique = true)
     private String username;
@@ -44,11 +47,6 @@ public class User implements Serializable {
     @NotBlank
     @Column(name = "nickname")
     private String nickName;
-
-    /**
-     * 性别
-     */
-    private String sex;
 
     @OneToOne
     @JoinColumn(name = "avatar_id")
@@ -62,6 +60,10 @@ public class User implements Serializable {
     @Column(name = "create_time")
     @CreationTimestamp
     private Timestamp createTime;
+
+    @Column(name = "update_time")
+    @CreationTimestamp
+    private Timestamp updateTime;
 
     @Column(name = "last_password_reset_time")
     private Date lastPasswordResetTime;
