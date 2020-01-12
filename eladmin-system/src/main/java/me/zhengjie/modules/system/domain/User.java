@@ -29,6 +29,12 @@ public class User implements Serializable {
     private String id;
 
     @NotBlank
+    @Email
+    private String email;
+
+    private int status;
+
+    @NotBlank
     @Column(unique = true)
     private String username;
 
@@ -36,6 +42,7 @@ public class User implements Serializable {
      * 用户昵称
      */
     @NotBlank
+    @Column(name = "nickname")
     private String nickName;
 
     /**
@@ -48,14 +55,7 @@ public class User implements Serializable {
     private UserAvatar userAvatar;
 
     @NotBlank
-    @Email
-    private String email;
-
-    @NotBlank
     private String phone;
-
-    @NotNull
-    private Boolean enabled;
 
     private String password;
 

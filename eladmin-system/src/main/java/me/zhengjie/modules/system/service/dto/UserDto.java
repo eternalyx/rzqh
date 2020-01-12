@@ -3,6 +3,7 @@ package me.zhengjie.modules.system.service.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -22,15 +23,13 @@ public class UserDto implements Serializable {
 
     private String nickName;
 
-    private String sex;
-
     private String avatar;
 
     private String email;
 
     private String phone;
 
-    private Boolean enabled;
+    private int status;
 
     @JsonIgnore
     private String password;

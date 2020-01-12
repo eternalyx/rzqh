@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserService {
 
         user.setUsername(resources.getUsername());
         user.setEmail(resources.getEmail());
-        user.setEnabled(resources.getEnabled());
+        user.setStatus(resources.getStatus());
         user.setRoles(resources.getRoles());
         user.setDept(resources.getDept());
         user.setJob(resources.getJob());
@@ -203,7 +203,7 @@ public class UserServiceImpl implements UserService {
             map.put("用户名", userDTO.getUsername());
             map.put("头像", userDTO.getAvatar());
             map.put("邮箱", userDTO.getEmail());
-            map.put("状态", userDTO.getEnabled() ? "启用" : "禁用");
+            map.put("状态", userDTO.getStatus()==0 ? "启用" : "禁用");
             map.put("手机号码", userDTO.getPhone());
             map.put("角色", roles);
             map.put("部门", userDTO.getDept().getName());
