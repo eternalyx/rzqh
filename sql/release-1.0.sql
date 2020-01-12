@@ -4,6 +4,7 @@ CREATE TABLE `sys_user`
   `email`       VARCHAR(64)  NOT NULL DEFAULT '' COMMENT '邮箱',
   `status`      TINYINT(1)   NOT NULL DEFAULT '0' COMMENT '状态：0：启用 1：禁用',
   `password`    VARCHAR(255) NOT NULL DEFAULT '' COMMENT '密码',
+  `nickname`    VARCHAR(64) NOT NULL DEFAULT '' COMMENT '昵称',
   `username`    VARCHAR(40)  NOT NULL DEFAULT '' COMMENT '用户名',
   `phone`       VARCHAR(64)  NOT NULL DEFAULT '' COMMENT '手机号码',
   `is_delete`   TINYINT(1)   NOT NULL DEFAULT '0' COMMENT '0: 未删除 1：已删除',
@@ -29,7 +30,7 @@ CREATE TABLE `sys_menu`
 (
   `id`          VARCHAR(32) NOT NULL DEFAULT '' COMMENT 'ID',
   `name`        VARCHAR(64) NOT NULL DEFAULT '' COMMENT '目录或按钮名称',
-  `pid`         VARCHAR(64) NOT NULL DEFAULT '' COMMENT '父级目录',
+  `pid`         VARCHAR(32) NOT NULL DEFAULT '' COMMENT '父级目录',
   `sort`        TINYINT(4)  NULL     DEFAULT NULL COMMENT '排序',
   `type`        TINYINT(1)  NULL     DEFAULT NULL COMMENT '类型 1-菜单 2-按钮',
   `permission`  VARCHAR(20) NOT NULL DEFAULT '功能权限',
