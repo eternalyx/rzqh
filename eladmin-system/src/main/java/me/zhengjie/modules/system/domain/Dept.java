@@ -26,7 +26,7 @@ public class Dept implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @NotNull(groups = Update.class)
-    private Long id;
+    private String id;
 
     @Column(name = "name",nullable = false)
     @NotBlank
@@ -43,7 +43,7 @@ public class Dept implements Serializable {
 
     @Column(name = "pid",nullable = false)
     @NotNull
-    private Long pid;
+    private String pid;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "depts")

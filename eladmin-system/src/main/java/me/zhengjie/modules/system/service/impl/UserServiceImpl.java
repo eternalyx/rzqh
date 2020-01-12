@@ -68,7 +68,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(key = "#p0")
-    public UserDto findById(long id) {
+    public UserDto findById(String id) {
         User user = userRepository.findById(id).orElseGet(User::new);
         ValidationUtil.isNull(user.getId(),"User","id",id);
         return userMapper.toDto(user);
@@ -121,15 +121,6 @@ public class UserServiceImpl implements UserService {
         user.setPhone(resources.getPhone());
         user.setNickName(resources.getNickName());
         user.setSex(resources.getSex());
-
-        user.setContractTimeBegin(resources.getContractTimeBegin());
-        user.setContractTimeEnd(resources.getContractTimeEnd());
-        user.setResumeUrl(resources.getResumeUrl());
-        user.setLeavingCertificateUrl(resources.getLeavingCertificateUrl());
-        user.setDiplomaCertificateUrl(resources.getDiplomaCertificateUrl());
-        user.setIdCardNumber(resources.getIdCardNumber());
-        user.setHomeAddress(resources.getHomeAddress());
-        user.setLeavingDate(resources.getLeavingDate());
         userRepository.save(user);
     }
 
@@ -147,8 +138,8 @@ public class UserServiceImpl implements UserService {
     @Override
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
-        for (Long id : ids) {
+    public void delete(Set<String> ids) {
+        for (String id : ids) {
             userRepository.deleteById(id);
         }
     }

@@ -14,7 +14,7 @@ import java.sql.Timestamp;
 @Setter
 public class DictDetailDto implements Serializable {
 
-    private Long id;
+    private String id;
 
     private String label;
 

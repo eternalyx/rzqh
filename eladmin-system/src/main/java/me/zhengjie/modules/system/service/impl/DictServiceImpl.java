@@ -61,7 +61,7 @@ public class DictServiceImpl implements DictService {
 
     @Override
     @Cacheable(key = "#p0")
-    public DictDto findById(Long id) {
+    public DictDto findById(String id) {
         Dict dict = dictRepository.findById(id).orElseGet(Dict::new);
         ValidationUtil.isNull(dict.getId(),"Dict","id",id);
         return dictMapper.toDto(dict);
@@ -87,7 +87,7 @@ public class DictServiceImpl implements DictService {
     @Override
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
+    public void delete(String id) {
         dictRepository.deleteById(id);
     }
 

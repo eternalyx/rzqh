@@ -74,14 +74,14 @@ public class UserController {
     @GetMapping
     @PreAuthorize("@el.check('user:list')")
     public ResponseEntity<Object> getUsers(UserQueryCriteria criteria, Pageable pageable){
-        Set<Long> deptSet = new HashSet<>();
-        Set<Long> result = new HashSet<>();
+        Set<String> deptSet = new HashSet<>();
+        Set<String> result = new HashSet<>();
         if (!ObjectUtils.isEmpty(criteria.getDeptId())) {
             deptSet.add(criteria.getDeptId());
             deptSet.addAll(dataScope.getDeptChildren(deptService.findByPid(criteria.getDeptId())));
         }
         // 数据权限
-        Set<Long> deptIds = dataScope.getDeptIds();
+        Set<String> deptIds = dataScope.getDeptIds();
         // 查询条件不为空并且数据权限不为空则取交集
         if (!CollectionUtils.isEmpty(deptIds) && !CollectionUtils.isEmpty(deptSet)){
             // 取交集
@@ -140,15 +140,16 @@ public class UserController {
     @ApiOperation("删除用户")
     @DeleteMapping
     @PreAuthorize("@el.check('user:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+    public ResponseEntity<Object> delete(@RequestBody Set<String> ids){
         UserDto user = userService.findByName(SecurityUtils.getUsername());
-        for (Long id : ids) {
+        // 没时间做权限
+        /*for (String id : ids) {
             Integer currentLevel =  Collections.min(roleService.findByUsersId(user.getId()).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList()));
             Integer optLevel =  Collections.min(roleService.findByUsersId(id).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList()));
             if (currentLevel > optLevel) {
                 throw new BadRequestException("角色权限不足，不能删除：" + userService.findByName(SecurityUtils.getUsername()).getUsername());
             }
-        }
+        }*/
         userService.delete(ids);
         return new ResponseEntity<>(HttpStatus.OK);
     }
@@ -200,11 +201,12 @@ public class UserController {
      * @param resources /
      */
     private void checkLevel(User resources) {
-        UserDto user = userService.findByName(SecurityUtils.getUsername());
+        // 没时间做权限
+        /*UserDto user = userService.findByName(SecurityUtils.getUsername());
         Integer currentLevel =  Collections.min(roleService.findByUsersId(user.getId()).stream().map(RoleSmallDto::getLevel).collect(Collectors.toList()));
         Integer optLevel = roleService.findByRoles(resources.getRoles());
         if (currentLevel > optLevel) {
             throw new BadRequestException("角色权限不足");
-        }
+        }*/
     }
 }

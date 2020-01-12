@@ -69,7 +69,7 @@ public class MenuController {
     @GetMapping(value = "/tree")
     @PreAuthorize("@el.check('menu:list','roles:list')")
     public ResponseEntity<Object> getMenuTree(){
-        return new ResponseEntity<>(menuService.getMenuTree(menuService.findByPid(0L)),HttpStatus.OK);
+        return new ResponseEntity<>(menuService.getMenuTree(menuService.findByPid("")),HttpStatus.OK);
     }
 
     @Log("查询菜单")
@@ -105,9 +105,9 @@ public class MenuController {
     @ApiOperation("删除菜单")
     @DeleteMapping
     @PreAuthorize("@el.check('menu:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+    public ResponseEntity<Object> delete(@RequestBody Set<String> ids){
         Set<Menu> menuSet = new HashSet<>();
-        for (Long id : ids) {
+        for (String id : ids) {
             List<Menu> menuList = menuService.findByPid(id);
             menuSet.add(menuService.findOne(id));
             menuSet = menuService.getDeleteMenus(menuList, menuSet);

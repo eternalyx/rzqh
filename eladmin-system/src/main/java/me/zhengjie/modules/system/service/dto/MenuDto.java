@@ -12,7 +12,7 @@ import java.util.List;
 @Data
 public class MenuDto implements Serializable {
 
-    private Long id;
+    private String id;
 
     private Integer type;
 
@@ -26,7 +26,7 @@ public class MenuDto implements Serializable {
 
     private String component;
 
-    private Long pid;
+    private String pid;
 
     private Boolean iFrame;
 

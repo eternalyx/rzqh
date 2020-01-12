@@ -17,7 +17,7 @@ public interface DictDetailService {
      * @param id /
      * @return /
      */
-    DictDetailDto findById(Long id);
+    DictDetailDto findById(String id);
 
     /**
      * 创建
@@ -36,7 +36,7 @@ public interface DictDetailService {
      * 删除
      * @param id /
      */
-    void delete(Long id);
+    void delete(String id);
 
     /**
      * 分页查询

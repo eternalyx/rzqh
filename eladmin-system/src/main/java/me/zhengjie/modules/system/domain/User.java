@@ -3,11 +3,11 @@ package me.zhengjie.modules.system.domain;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -21,23 +21,26 @@ import java.util.Set;
 @Entity
 @Getter
 @Setter
-@Table(name="user")
+@Table(name = "sys_user")
 public class User implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = Update.class)
-    private Long id;
+    private String id;
 
     @NotBlank
     @Column(unique = true)
     private String username;
 
-    /** 用户昵称 */
+    /**
+     * 用户昵称
+     */
     @NotBlank
     private String nickName;
 
-    /** 性别 */
+    /**
+     * 性别
+     */
     private String sex;
 
     @OneToOne
@@ -64,7 +67,7 @@ public class User implements Serializable {
     private Date lastPasswordResetTime;
 
     @ManyToMany
-    @JoinTable(name = "users_roles", joinColumns = {@JoinColumn(name = "user_id",referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")})
+    @JoinTable(name = "users_roles", joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")}, inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
 
     @OneToOne
@@ -75,34 +78,8 @@ public class User implements Serializable {
     @JoinColumn(name = "dept_id")
     private Dept dept;
 
-    /**
-     * 人在起航新增字段
-     */
-    @Column(name = "contract_time_begin")
-    private Timestamp contractTimeBegin;
-
-    @Column(name = "contract_time_end")
-    private Timestamp contractTimeEnd;
-
-    @Column(name = "resume_url")
-    private String resumeUrl;
-
-    @Column(name = "leaving_certificate_url")
-    private String leavingCertificateUrl;
-
-    @Column(name = "diploma_certificate_url")
-    private String diplomaCertificateUrl;
-
-    @Column(name = "id_card_number")
-    private String idCardNumber;
-
-    @Column(name = "home_address")
-    private String homeAddress;
-
-    @Column(name = "leaving_date")
-    private Timestamp leavingDate;
-
-    public @interface Update {}
+    public @interface Update {
+    }
 
     @Override
     public boolean equals(Object o) {

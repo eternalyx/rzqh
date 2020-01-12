@@ -36,7 +36,7 @@ public interface DictService {
      * @param id /
      * @return /
      */
-    DictDto findById(Long id);
+    DictDto findById(String id);
 
     /**
      * 创建
@@ -55,7 +55,7 @@ public interface DictService {
      * 删除
      * @param id /
      */
-    void delete(Long id);
+    void delete(String id);
 
     /**
      * 导出数据

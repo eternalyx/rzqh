@@ -16,7 +16,7 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 public class JobDto implements Serializable {
 
-    private Long id;
+    private String id;
 
     private Long sort;
 

@@ -49,7 +49,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user.getNickName(),
                 user.getSex(),
                 user.getPassword(),
-                user.getAvatar(),
                 user.getEmail(),
                 user.getPhone(),
                 Optional.ofNullable(user.getDept()).map(DeptSmallDto::getName).orElse(null),

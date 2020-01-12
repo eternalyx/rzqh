@@ -65,7 +65,7 @@ public class JobServiceImpl implements JobService {
 
     @Override
     @Cacheable(key = "#p0")
-    public JobDto findById(Long id) {
+    public JobDto findById(String id) {
         Job job = jobRepository.findById(id).orElseGet(Job::new);
         ValidationUtil.isNull(job.getId(),"Job","id",id);
         return jobMapper.toDto(job);
@@ -91,8 +91,8 @@ public class JobServiceImpl implements JobService {
     @Override
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
-        for (Long id : ids) {
+    public void delete(Set<String> ids) {
+        for (String id : ids) {
             jobRepository.deleteById(id);
         }
     }

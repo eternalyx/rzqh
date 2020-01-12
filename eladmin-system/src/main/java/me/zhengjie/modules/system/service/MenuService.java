@@ -29,7 +29,7 @@ public interface MenuService {
      * @param id /
      * @return /
      */
-    MenuDto findById(long id);
+    MenuDto findById(String id);
 
     /**
      * 创建
@@ -64,7 +64,7 @@ public interface MenuService {
      * @param pid /
      * @return /
      */
-    List<Menu> findByPid(long pid);
+    List<Menu> findByPid(String pid);
 
     /**
      * 构建菜单树
@@ -92,7 +92,7 @@ public interface MenuService {
      * @param id /
      * @return /
      */
-    Menu findOne(Long id);
+    Menu findOne(String id);
 
     /**
      * 删除

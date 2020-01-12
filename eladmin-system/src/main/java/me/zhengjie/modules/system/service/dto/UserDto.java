@@ -16,7 +16,7 @@ import java.util.Set;
 public class UserDto implements Serializable {
 
     @ApiModelProperty(hidden = true)
-    private Long id;
+    private String id;
 
     private String username;
 
@@ -45,7 +45,7 @@ public class UserDto implements Serializable {
 
     private DeptSmallDto dept;
 
-    private Long deptId;
+    private String deptId;
 
     private Timestamp createTime;
 
