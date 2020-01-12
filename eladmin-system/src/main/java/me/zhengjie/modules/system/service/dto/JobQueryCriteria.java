@@ -22,10 +22,10 @@ public class JobQueryCriteria {
     private Boolean enabled;
 
     @Query(propName = "id", joinName = "dept")
-    private Long deptId;
+    private String deptId;
 
     @Query(propName = "id", joinName = "dept", type = Query.Type.IN)
-    private Set<Long> deptIds;
+    private Set<String> deptIds;
 
     @Query(type = Query.Type.BETWEEN)
     private List<Timestamp> createTime;

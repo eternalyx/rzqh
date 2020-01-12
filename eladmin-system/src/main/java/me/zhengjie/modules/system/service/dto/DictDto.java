@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class DictDto implements Serializable {
 
-    private Long id;
+    private String id;
 
     private String name;
 

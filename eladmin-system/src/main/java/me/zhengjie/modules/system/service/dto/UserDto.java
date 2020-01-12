@@ -3,6 +3,7 @@ package me.zhengjie.modules.system.service.dto;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
@@ -16,13 +17,11 @@ import java.util.Set;
 public class UserDto implements Serializable {
 
     @ApiModelProperty(hidden = true)
-    private Long id;
+    private String id;
 
     private String username;
 
     private String nickName;
-
-    private String sex;
 
     private String avatar;
 
@@ -30,7 +29,9 @@ public class UserDto implements Serializable {
 
     private String phone;
 
-    private Boolean enabled;
+    private int status;
+
+    private int isDelete;
 
     @JsonIgnore
     private String password;
@@ -45,23 +46,7 @@ public class UserDto implements Serializable {
 
     private DeptSmallDto dept;
 
-    private Long deptId;
-
     private Timestamp createTime;
 
-    private Timestamp contractTimeBegin;
-
-    private Timestamp contractTimeEnd;
-
-    private String resumeUrl;
-
-    private String leavingCertificateUrl;
-
-    private String diplomaCertificateUrl;
-
-    private String idCardNumber;
-
-    private String homeAddress;
-
-    private Timestamp leavingDate;
+    private Timestamp updateTime;
 }

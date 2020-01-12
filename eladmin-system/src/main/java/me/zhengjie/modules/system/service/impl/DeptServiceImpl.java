@@ -48,7 +48,7 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Cacheable(key = "#p0")
-    public DeptDto findById(Long id) {
+    public DeptDto findById(String id) {
         Dept dept = deptRepository.findById(id).orElseGet(Dept::new);
         ValidationUtil.isNull(dept.getId(),"Dept","id",id);
         return deptMapper.toDto(dept);
@@ -56,12 +56,12 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Cacheable
-    public List<Dept> findByPid(long pid) {
+    public List<Dept> findByPid(String pid) {
         return deptRepository.findByPid(pid);
     }
 
     @Override
-    public Set<Dept> findByRoleIds(Long id) {
+    public Set<Dept> findByRoleIds(String id) {
         return deptRepository.findByRoles_Id(id);
     }
 

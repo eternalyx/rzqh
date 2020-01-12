@@ -27,7 +27,7 @@ public interface DeptService {
      * @param id /
      * @return /
      */
-    DeptDto findById(Long id);
+    DeptDto findById(String id);
 
     /**
      * 创建
@@ -61,14 +61,14 @@ public interface DeptService {
      * @param pid /
      * @return /
      */
-    List<Dept> findByPid(long pid);
+    List<Dept> findByPid(String pid);
 
     /**
      * 根据角色ID查询
      * @param id /
      * @return /
      */
-    Set<Dept> findByRoleIds(Long id);
+    Set<Dept> findByRoleIds(String id);
 
     /**
      * 导出数据

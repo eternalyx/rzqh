@@ -12,7 +12,7 @@ import java.util.Set;
  * @date 2018-12-03
  */
 @SuppressWarnings("all")
-public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificationExecutor<Role> {
+public interface RoleRepository extends JpaRepository<Role, String>, JpaSpecificationExecutor<Role> {
 
     /**
      * 根据名称查询
@@ -26,7 +26,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
      * @param id 用户ID
      * @return
      */
-    Set<Role> findByUsers_Id(Long id);
+    Set<Role> findByUsers_Id(String id);
 
     /**
      * 解绑角色菜单
@@ -34,7 +34,7 @@ public interface RoleRepository extends JpaRepository<Role, Long>, JpaSpecificat
      */
     @Modifying
     @Query(value = "delete from roles_menus where menu_id = ?1",nativeQuery = true)
-    void untiedMenu(Long id);
+    void untiedMenu(String id);
 
     /**
      * 根据角色权限查询

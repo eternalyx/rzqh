@@ -85,9 +85,9 @@ public class DeptController {
     @ApiOperation("删除部门")
     @DeleteMapping
     @PreAuthorize("@el.check('dept:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+    public ResponseEntity<Object> delete(@RequestBody Set<String> ids){
         Set<DeptDto> deptDtos = new HashSet<>();
-        for (Long id : ids) {
+        for (String id : ids) {
             List<Dept> deptList = deptService.findByPid(id);
             deptDtos.add(deptService.findById(id));
             if(CollectionUtil.isNotEmpty(deptList)){

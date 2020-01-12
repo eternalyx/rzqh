@@ -12,7 +12,7 @@ import java.io.Serializable;
 @NoArgsConstructor
 public class JobSmallDto implements Serializable {
 
-    private Long id;
+    private String id;
 
     private String name;
 }

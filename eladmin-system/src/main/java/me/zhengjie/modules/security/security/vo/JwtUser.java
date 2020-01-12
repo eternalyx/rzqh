@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
 import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.Date;
@@ -18,13 +19,11 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class JwtUser implements UserDetails {
 
-    private final Long id;
+    private final String id;
 
     private final String username;
 
     private final String nickName;
-
-    private final String sex;
 
     @JsonIgnore
     private final String password;
@@ -42,7 +41,7 @@ public class JwtUser implements UserDetails {
     @JsonIgnore
     private final Collection<GrantedAuthority> authorities;
 
-    private final boolean enabled;
+    private int status;
 
     private Timestamp createTime;
 
@@ -75,7 +74,7 @@ public class JwtUser implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return enabled;
+        return status==0;
     }
 
     public Collection getRoles() {

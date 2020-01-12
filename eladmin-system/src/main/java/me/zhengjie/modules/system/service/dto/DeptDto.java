@@ -16,7 +16,7 @@ import java.util.List;
 @Data
 public class DeptDto implements Serializable {
 
-    private Long id;
+    private String id;
 
     private String name;
 
@@ -28,7 +28,7 @@ public class DeptDto implements Serializable {
     @NotNull
     private Boolean enabled;
 
-    private Long pid;
+    private String pid;
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<DeptDto> children;

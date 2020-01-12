@@ -46,7 +46,7 @@ public class DictDetailServiceImpl implements DictDetailService {
 
     @Override
     @Cacheable(key = "#p0")
-    public DictDetailDto findById(Long id) {
+    public DictDetailDto findById(String id) {
         DictDetail dictDetail = dictDetailRepository.findById(id).orElseGet(DictDetail::new);
         ValidationUtil.isNull(dictDetail.getId(),"DictDetail","id",id);
         return dictDetailMapper.toDto(dictDetail);
@@ -72,7 +72,7 @@ public class DictDetailServiceImpl implements DictDetailService {
     @Override
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Long id) {
+    public void delete(String id) {
         dictDetailRepository.deleteById(id);
     }
 }

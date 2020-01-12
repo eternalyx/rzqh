@@ -70,7 +70,7 @@ public class RoleServiceImpl implements RoleService {
 
     @Override
     @Cacheable(key = "#p0")
-    public RoleDto findById(long id) {
+    public RoleDto findById(String id) {
         Role role = roleRepository.findById(id).orElseGet(Role::new);
         ValidationUtil.isNull(role.getId(),"Role","id",id);
         return roleMapper.toDto(role);
@@ -122,22 +122,22 @@ public class RoleServiceImpl implements RoleService {
     @Override
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void untiedMenu(Long id) {
+    public void untiedMenu(String id) {
         roleRepository.untiedMenu(id);
     }
 
     @Override
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
-        for (Long id : ids) {
+    public void delete(Set<String> ids) {
+        for (String id : ids) {
             roleRepository.deleteById(id);
         }
     }
 
     @Override
     @Cacheable(key = "'findByUsers_Id:' + #p0")
-    public List<RoleSmallDto> findByUsersId(Long id) {
+    public List<RoleSmallDto> findByUsersId(String id) {
         return roleSmallMapper.toDto(new ArrayList<>(roleRepository.findByUsers_Id(id)));
     }
 

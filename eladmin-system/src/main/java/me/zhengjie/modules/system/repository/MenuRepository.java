@@ -12,7 +12,7 @@ import java.util.Set;
  * @date 2018-12-17
  */
 @SuppressWarnings("all")
-public interface MenuRepository extends JpaRepository<Menu, Long>, JpaSpecificationExecutor<Menu> {
+public interface MenuRepository extends JpaRepository<Menu, String>, JpaSpecificationExecutor<Menu> {
 
     /**
      * 根据菜单名称查询
@@ -33,7 +33,7 @@ public interface MenuRepository extends JpaRepository<Menu, Long>, JpaSpecificat
      * @param pid /
      * @return /
      */
-    List<Menu> findByPid(long pid);
+    List<Menu> findByPid(String pid);
 
     /**
      * 根据角色ID与菜单类型查询菜单
@@ -41,5 +41,5 @@ public interface MenuRepository extends JpaRepository<Menu, Long>, JpaSpecificat
      * @param type 类型
      * @return /
      */
-    LinkedHashSet<Menu> findByRoles_IdInAndTypeNotOrderBySortAsc(Set<Long> roleIds, int type);
+    LinkedHashSet<Menu> findByRoles_IdInAndTypeNotOrderBySortAsc(Set<String> roleIds, int type);
 }
