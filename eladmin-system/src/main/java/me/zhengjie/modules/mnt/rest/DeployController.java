@@ -43,9 +43,9 @@ public class DeployController {
 
 	@Log("导出部署数据")
 	@ApiOperation("导出部署数据")
-	@GetMapping(value = "/download")
+	@GetMapping(value = "/export")
 	@PreAuthorize("@el.check('database:list')")
-	public void download(HttpServletResponse response, DeployQueryCriteria criteria) throws IOException {
+	public void export(HttpServletResponse response, DeployQueryCriteria criteria) throws IOException {
 		deployService.download(deployService.queryAll(criteria), response);
 	}
 

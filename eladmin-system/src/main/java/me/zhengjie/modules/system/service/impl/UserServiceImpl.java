@@ -1,5 +1,6 @@
 package me.zhengjie.modules.system.service.impl;
 
+import me.zhengjie.config.Global;
 import me.zhengjie.modules.system.domain.User;
 import me.zhengjie.exception.EntityExistException;
 import me.zhengjie.exception.EntityNotFoundException;
@@ -45,8 +46,6 @@ public class UserServiceImpl implements UserService {
     private final UserAvatarRepository userAvatarRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Value("${file.avatar}")
-    private String avatar;
 
     public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RedisUtils redisUtils, UserAvatarRepository userAvatarRepository,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
@@ -180,7 +179,7 @@ public class UserServiceImpl implements UserService {
         if(userAvatar != null){
            oldPath = userAvatar.getPath();
         }
-        File file = FileUtil.upload(multipartFile, avatar);
+        File file = FileUtil.upload(multipartFile, Global.getAvatarPath());
         assert file != null;
         userAvatar = userAvatarRepository.save(new UserAvatar(userAvatar,file.getName(), file.getPath(), FileUtil.getSize(multipartFile.getSize())));
         user.setUserAvatar(userAvatar);

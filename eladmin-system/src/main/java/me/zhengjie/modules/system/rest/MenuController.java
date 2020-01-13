@@ -50,9 +50,9 @@ public class MenuController {
 
     @Log("导出菜单数据")
     @ApiOperation("导出菜单数据")
-    @GetMapping(value = "/download")
+    @GetMapping(value = "/export")
     @PreAuthorize("@el.check('menu:list')")
-    public void download(HttpServletResponse response, MenuQueryCriteria criteria) throws IOException {
+    public void export(HttpServletResponse response, MenuQueryCriteria criteria) throws IOException {
         menuService.download(menuService.queryAll(criteria), response);
     }
 

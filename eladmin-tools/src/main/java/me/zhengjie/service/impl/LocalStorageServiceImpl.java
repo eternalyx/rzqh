@@ -1,6 +1,7 @@
 package me.zhengjie.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import me.zhengjie.config.Global;
 import me.zhengjie.domain.LocalStorage;
 import me.zhengjie.service.dto.LocalStorageDto;
 import me.zhengjie.service.dto.LocalStorageQueryCriteria;
@@ -42,11 +43,6 @@ public class LocalStorageServiceImpl implements LocalStorageService {
 
     private final LocalStorageMapper localStorageMapper;
 
-    @Value("${file.path}")
-    private String path;
-
-    @Value("${file.maxSize}")
-    private long maxSize;
 
     public LocalStorageServiceImpl(LocalStorageRepository localStorageRepository, LocalStorageMapper localStorageMapper) {
         this.localStorageRepository = localStorageRepository;
@@ -78,10 +74,10 @@ public class LocalStorageServiceImpl implements LocalStorageService {
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public LocalStorageDto create(String name, MultipartFile multipartFile) {
-        FileUtil.checkSize(maxSize, multipartFile.getSize());
+        FileUtil.checkSize(Global.getFileMaxSize(), multipartFile.getSize());
         String suffix = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
         String type = FileUtil.getFileType(suffix);
-        File file = FileUtil.upload(multipartFile, path + type +  File.separator);
+        File file = FileUtil.upload(multipartFile, Global.getUploadPath() + type +  File.separator);
         if(ObjectUtil.isNull(file)){
             throw new BadRequestException("上传失败");
         }

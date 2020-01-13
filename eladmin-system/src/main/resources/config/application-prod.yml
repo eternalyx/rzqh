@@ -73,10 +73,11 @@ swagger:
   enabled: false
   needToken: false
 
+
+
 # 文件存储路径
-file:
-  path: /home/eladmin/file/
-  avatar: /home/eladmin/avatar/
+rzqh:
+  fileRootPath: /home/eladmin/file/
   # 文件大小 /M
-  maxSize: 100
+  fileMaxSize: 100
   avatarMaxSize: 5

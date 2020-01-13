@@ -31,16 +31,16 @@ public class LogController {
 
     @Log("导出数据")
     @ApiOperation("导出数据")
-    @GetMapping(value = "/download")
+    @GetMapping(value = "/export")
     @PreAuthorize("@el.check()")
-    public void download(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
+    public void export(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
         criteria.setLogType("INFO");
         logService.download(logService.queryAll(criteria), response);
     }
 
     @Log("导出错误数据")
     @ApiOperation("导出错误数据")
-    @GetMapping(value = "/error/download")
+    @GetMapping(value = "/error/export")
     @PreAuthorize("@el.check()")
     public void errorDownload(HttpServletResponse response, LogQueryCriteria criteria) throws IOException {
         criteria.setLogType("ERROR");

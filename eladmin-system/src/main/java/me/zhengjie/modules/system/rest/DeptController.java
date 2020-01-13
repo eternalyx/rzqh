@@ -9,6 +9,7 @@ import me.zhengjie.modules.system.domain.Dept;
 import me.zhengjie.modules.system.service.DeptService;
 import me.zhengjie.modules.system.service.dto.DeptDto;
 import me.zhengjie.modules.system.service.dto.DeptQueryCriteria;
+import me.zhengjie.utils.ExcelUtil;
 import me.zhengjie.utils.ThrowableUtil;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -42,10 +43,13 @@ public class DeptController {
 
     @Log("导出部门数据")
     @ApiOperation("导出部门数据")
-    @GetMapping(value = "/download")
+    @GetMapping(value = "/export")
     @PreAuthorize("@el.check('dept:list')")
-    public void download(HttpServletResponse response, DeptQueryCriteria criteria) throws IOException {
-        deptService.download(deptService.queryAll(criteria), response);
+    public void export(HttpServletResponse response, DeptQueryCriteria criteria) throws IOException {
+        // 数据权限
+        criteria.setIds(dataScope.getDeptIds());
+        List<DeptDto> deptDtos = deptService.queryAll(criteria);
+        new ExcelUtil<DeptDto>(DeptDto.class).exportExcel(deptDtos, "部门数据");
     }
 
     @Log("查询部门")

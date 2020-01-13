@@ -40,9 +40,9 @@ public class LocalStorageController {
 
     @Log("导出数据")
     @ApiOperation("导出数据")
-    @GetMapping(value = "/download")
+    @GetMapping(value = "/export")
     @PreAuthorize("@el.check('storage:list')")
-    public void download(HttpServletResponse response, LocalStorageQueryCriteria criteria) throws IOException {
+    public void export(HttpServletResponse response, LocalStorageQueryCriteria criteria) throws IOException {
         localStorageService.download(localStorageService.queryAll(criteria), response);
     }
 

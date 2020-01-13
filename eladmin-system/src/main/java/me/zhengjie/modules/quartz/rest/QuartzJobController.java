@@ -47,17 +47,17 @@ public class QuartzJobController {
 
     @Log("导出任务数据")
     @ApiOperation("导出任务数据")
-    @GetMapping(value = "/download")
+    @GetMapping(value = "/export")
     @PreAuthorize("@el.check('timing:list')")
-    public void download(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
+    public void export(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
         quartzJobService.download(quartzJobService.queryAll(criteria), response);
     }
 
     @Log("导出日志数据")
     @ApiOperation("导出日志数据")
-    @GetMapping(value = "/logs/download")
+    @GetMapping(value = "/logs/export")
     @PreAuthorize("@el.check('timing:list')")
-    public void downloadLog(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
+    public void exportLog(HttpServletResponse response, JobQueryCriteria criteria) throws IOException {
         quartzJobService.downloadLog(quartzJobService.queryAllLog(criteria), response);
     }
 
