@@ -35,12 +35,12 @@ public class DataScope {
         this.deptService = deptService;
     }
 
-    public Set<Long> getDeptIds() {
+    public Set<String> getDeptIds() {
 
         UserDto user = userService.findByName(SecurityUtils.getUsername());
 
         // 用于存储部门id
-        Set<Long> deptIds = new HashSet<>();
+        Set<String> deptIds = new HashSet<>();
 
         // 查询用户角色
         List<RoleSmallDto> roleSet = roleService.findByUsersId(user.getId());
@@ -72,8 +72,8 @@ public class DataScope {
     }
 
 
-    public List<Long> getDeptChildren(List<Dept> deptList) {
-        List<Long> list = new ArrayList<>();
+    public List<String> getDeptChildren(List<Dept> deptList) {
+        List<String> list = new ArrayList<>();
         deptList.forEach(dept -> {
                     if (dept!=null && dept.getEnabled()){
                         List<Dept> depts = deptService.findByPid(dept.getId());

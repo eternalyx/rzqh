@@ -18,6 +18,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -41,26 +43,26 @@ public class UserServiceImpl implements UserService {
     private final UserMapper userMapper;
     private final RedisUtils redisUtils;
     private final UserAvatarRepository userAvatarRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Value("${file.avatar}")
     private String avatar;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RedisUtils redisUtils, UserAvatarRepository userAvatarRepository) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, RedisUtils redisUtils, UserAvatarRepository userAvatarRepository,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.redisUtils = redisUtils;
         this.userAvatarRepository = userAvatarRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    @Cacheable
     public Object queryAll(UserQueryCriteria criteria, Pageable pageable) {
         Page<User> page = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder),pageable);
         return PageUtil.toPage(page.map(userMapper::toDto));
     }
 
     @Override
-    @Cacheable
     public List<UserDto> queryAll(UserQueryCriteria criteria) {
         List<User> users = userRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder));
         return userMapper.toDto(users);
@@ -68,7 +70,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Cacheable(key = "#p0")
-    public UserDto findById(long id) {
+    public UserDto findById(String id) {
         User user = userRepository.findById(id).orElseGet(User::new);
         ValidationUtil.isNull(user.getId(),"User","id",id);
         return userMapper.toDto(user);
@@ -84,6 +86,7 @@ public class UserServiceImpl implements UserService {
         if(userRepository.findByEmail(resources.getEmail())!=null){
             throw new EntityExistException(User.class,"email",resources.getEmail());
         }
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
         return userMapper.toDto(userRepository.save(resources));
     }
 
@@ -113,14 +116,16 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setUsername(resources.getUsername());
+        user.setUserAvatar(resources.getUserAvatar());
         user.setEmail(resources.getEmail());
-        user.setEnabled(resources.getEnabled());
+        user.setStatus(resources.getStatus());
         user.setRoles(resources.getRoles());
         user.setDept(resources.getDept());
         user.setJob(resources.getJob());
         user.setPhone(resources.getPhone());
         user.setNickName(resources.getNickName());
-        user.setSex(resources.getSex());
+        user.setIsDelete(resources.getIsDelete());
+        user.setUpdateTime(new Timestamp(new Date().getTime()));
         userRepository.save(user);
     }
 
@@ -131,21 +136,19 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(resources.getId()).orElseGet(User::new);
         user.setNickName(resources.getNickName());
         user.setPhone(resources.getPhone());
-        user.setSex(resources.getSex());
         userRepository.save(user);
     }
 
     @Override
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
-    public void delete(Set<Long> ids) {
-        for (Long id : ids) {
+    public void delete(Set<String> ids) {
+        for (String id : ids) {
             userRepository.deleteById(id);
         }
     }
 
     @Override
-    @Cacheable(key = "'loadUserByUsername:'+#p0")
     public UserDto findByName(String userName) {
         User user;
         if(ValidationUtil.isEmail(userName)){
@@ -203,7 +206,7 @@ public class UserServiceImpl implements UserService {
             map.put("用户名", userDTO.getUsername());
             map.put("头像", userDTO.getAvatar());
             map.put("邮箱", userDTO.getEmail());
-            map.put("状态", userDTO.getEnabled() ? "启用" : "禁用");
+            map.put("状态", userDTO.getStatus()==0 ? "启用" : "禁用");
             map.put("手机号码", userDTO.getPhone());
             map.put("角色", roles);
             map.put("部门", userDTO.getDept().getName());

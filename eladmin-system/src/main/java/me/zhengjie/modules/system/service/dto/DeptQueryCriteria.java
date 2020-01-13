@@ -15,7 +15,7 @@ import java.util.Set;
 public class DeptQueryCriteria{
 
     @Query(type = Query.Type.IN, propName="id")
-    private Set<Long> ids;
+    private Set<String> ids;
 
     @Query(type = Query.Type.INNER_LIKE)
     private String name;
@@ -24,7 +24,7 @@ public class DeptQueryCriteria{
     private Boolean enabled;
 
     @Query
-    private Long pid;
+    private String pid;
 
     @Query(type = Query.Type.BETWEEN)
     private List<Timestamp> createTime;

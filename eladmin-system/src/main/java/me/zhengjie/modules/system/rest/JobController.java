@@ -81,7 +81,7 @@ public class JobController {
     @ApiOperation("删除岗位")
     @DeleteMapping
     @PreAuthorize("@el.check('job:del')")
-    public ResponseEntity<Object> delete(@RequestBody Set<Long> ids){
+    public ResponseEntity<Object> delete(@RequestBody Set<String> ids){
         try {
             jobService.delete(ids);
         }catch (Throwable e){

@@ -26,7 +26,7 @@ public class Role implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = {Update.class})
-    private Long id;
+    private String id;
 
     @Column(nullable = false)
     @NotBlank

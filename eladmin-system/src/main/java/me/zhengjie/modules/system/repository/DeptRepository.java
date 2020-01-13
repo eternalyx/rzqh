@@ -12,27 +12,27 @@ import java.util.Set;
 * @date 2019-03-25
 */
 @SuppressWarnings("all")
-public interface DeptRepository extends JpaRepository<Dept, Long>, JpaSpecificationExecutor<Dept> {
+public interface DeptRepository extends JpaRepository<Dept, String>, JpaSpecificationExecutor<Dept> {
 
     /**
      * 根据 PID 查询
      * @param id pid
      * @return /
      */
-    List<Dept> findByPid(Long id);
+    List<Dept> findByPid(String id);
 
     /**
      * 根据ID查询名称
      * @param id ID
      * @return /
      */
-    @Query(value = "select name from dept where id = ?1",nativeQuery = true)
-    String findNameById(Long id);
+    @Query(value = "select name from sys_dept where id = ?1",nativeQuery = true)
+    String findNameById(String id);
 
     /**
      * 根据角色ID 查询
      * @param id 角色ID
      * @return /
      */
-    Set<Dept> findByRoles_Id(Long id);
+    Set<Dept> findByRoles_Id(String id);
 }

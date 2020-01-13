@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,12 +44,13 @@ public class DeptServiceImpl implements DeptService {
     @Override
     @Cacheable
     public List<DeptDto> queryAll(DeptQueryCriteria criteria) {
-        return deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        List<Dept> deptList = deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder));
+        return deptMapper.toDto(deptList);
     }
 
     @Override
     @Cacheable(key = "#p0")
-    public DeptDto findById(Long id) {
+    public DeptDto findById(String id) {
         Dept dept = deptRepository.findById(id).orElseGet(Dept::new);
         ValidationUtil.isNull(dept.getId(),"Dept","id",id);
         return deptMapper.toDto(dept);
@@ -56,17 +58,16 @@ public class DeptServiceImpl implements DeptService {
 
     @Override
     @Cacheable
-    public List<Dept> findByPid(long pid) {
+    public List<Dept> findByPid(String pid) {
         return deptRepository.findByPid(pid);
     }
 
     @Override
-    public Set<Dept> findByRoleIds(Long id) {
+    public Set<Dept> findByRoleIds(String id) {
         return deptRepository.findByRoles_Id(id);
     }
 
     @Override
-    @Cacheable
     public Object buildTree(List<DeptDto> deptDtos) {
         Set<DeptDto> trees = new LinkedHashSet<>();
         Set<DeptDto> depts= new LinkedHashSet<>();
@@ -74,7 +75,7 @@ public class DeptServiceImpl implements DeptService {
         boolean isChild;
         for (DeptDto deptDTO : deptDtos) {
             isChild = false;
-            if ("0".equals(deptDTO.getPid().toString())) {
+            if ("".equals(deptDTO.getPid())) {
                 trees.add(deptDTO);
             }
             for (DeptDto it : deptDtos) {
@@ -109,6 +110,8 @@ public class DeptServiceImpl implements DeptService {
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public DeptDto create(Dept resources) {
+        resources.setId(UUID.randomUUID().toString().replace("-",""));
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
         return deptMapper.toDto(deptRepository.save(resources));
     }
 
@@ -121,7 +124,8 @@ public class DeptServiceImpl implements DeptService {
         }
         Dept dept = deptRepository.findById(resources.getId()).orElseGet(Dept::new);
         ValidationUtil.isNull( dept.getId(),"Dept","id",resources.getId());
-        resources.setId(dept.getId());
+        resources.setCreateTime(dept.getCreateTime());
+        resources.setUpdateTime(new Timestamp(new Date().getTime()));
         deptRepository.save(resources);
     }
 

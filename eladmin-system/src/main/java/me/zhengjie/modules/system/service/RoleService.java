@@ -25,7 +25,7 @@ public interface RoleService {
      * @param id /
      * @return /
      */
-    RoleDto findById(long id);
+    RoleDto findById(String id);
 
     /**
      * 创建
@@ -44,14 +44,14 @@ public interface RoleService {
      * 删除
      * @param ids /
      */
-    void delete(Set<Long> ids);
+    void delete(Set<String> ids);
 
     /**
      * 根据用户ID查询
      * @param id 用户ID
      * @return /
      */
-    List<RoleSmallDto> findByUsersId(Long id);
+    List<RoleSmallDto> findByUsersId(String id);
 
     /**
      * 根据角色查询角色级别
@@ -71,7 +71,7 @@ public interface RoleService {
      * 解绑菜单
      * @param id /
      */
-    void untiedMenu(Long id);
+    void untiedMenu(String id);
 
     /**
      * 不带条件分页查询

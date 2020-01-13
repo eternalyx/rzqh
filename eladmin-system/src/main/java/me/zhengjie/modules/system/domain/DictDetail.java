@@ -22,7 +22,7 @@ public class DictDetail implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @NotNull(groups = Update.class)
-    private Long id;
+    private String id;
 
     /** 字典标签 */
     @Column(name = "label",nullable = false)

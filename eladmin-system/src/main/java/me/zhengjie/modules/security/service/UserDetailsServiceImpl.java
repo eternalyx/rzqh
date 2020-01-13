@@ -4,12 +4,15 @@ import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.security.security.vo.JwtUser;
 import me.zhengjie.modules.system.service.RoleService;
 import me.zhengjie.modules.system.service.UserService;
-import me.zhengjie.modules.system.service.dto.*;
+import me.zhengjie.modules.system.service.dto.DeptSmallDto;
+import me.zhengjie.modules.system.service.dto.JobSmallDto;
+import me.zhengjie.modules.system.service.dto.UserDto;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.Optional;
 
 /**
@@ -30,12 +33,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username){
+    public UserDetails loadUserByUsername(String username) {
         UserDto user = userService.findByName(username);
         if (user == null) {
             throw new BadRequestException("账号不存在");
         } else {
-            if (!user.getEnabled()) {
+            if (user.getStatus()!=0) {
                 throw new BadRequestException("账号未激活");
             }
             return createJwtUser(user);
@@ -47,7 +50,6 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 user.getId(),
                 user.getUsername(),
                 user.getNickName(),
-                user.getSex(),
                 user.getPassword(),
                 user.getAvatar(),
                 user.getEmail(),
@@ -55,7 +57,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 Optional.ofNullable(user.getDept()).map(DeptSmallDto::getName).orElse(null),
                 Optional.ofNullable(user.getJob()).map(JobSmallDto::getName).orElse(null),
                 roleService.mapToGrantedAuthorities(user),
-                user.getEnabled(),
+                user.getStatus(),
                 user.getCreateTime(),
                 user.getLastPasswordResetTime()
         );

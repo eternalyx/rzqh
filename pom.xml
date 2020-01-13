@@ -13,8 +13,7 @@
         <module>eladmin-common</module>
         <module>eladmin-logging</module>
         <module>eladmin-system</module>
-        <module>eladmin-tools</module>
-		<module>eladmin-monitor</module>
+        <module>eladmin-tools</module> 
         <module>eladmin-generator</module>
     </modules>
 

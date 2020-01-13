@@ -25,7 +25,7 @@ public class Menu implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @NotNull(groups = {Update.class})
-    private Long id;
+    private String id;
 
     @NotBlank
     private String name;
@@ -58,8 +58,8 @@ public class Menu implements Serializable {
     private Boolean hidden;
 
     /** 上级菜单ID */
-    @Column(name = "pid",nullable = false)
-    private Long pid;
+    @Column(name = "pid")
+    private String pid;
 
     /** 是否为外链 true/false */
     @Column(name = "i_frame")
