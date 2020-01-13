@@ -2,6 +2,8 @@ package me.zhengjie;
 
 import me.zhengjie.annotation.AnonymousAccess;
 import me.zhengjie.utils.SpringContextHolder;
+import org.mybatis.spring.annotation.MapperScan;
+
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactory;
@@ -20,6 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @SpringBootApplication
 @EnableTransactionManagement
+@MapperScan("me.zhengjie.modules.system.domain.mapper")
 public class AppRun {
 
     public static void main(String[] args) {

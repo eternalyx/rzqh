@@ -70,9 +70,9 @@ CREATE TABLE `sys_dept`
 
 CREATE TABLE `sys_dept_user_admin`
 (
-  `dept_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '角色ID',
+  `dept_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '部门ID',
   `user_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '菜单ID',
-  `post`    VARCHAR(32) NOT NULL DEFAULT '' COMMENT '部门岗位'
+  `post`    VARCHAR(32) NOT NULL DEFAULT '' COMMENT '部门岗位 1-主管 2-助理'
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8 COMMENT = '部门用户关联表';
 
@@ -221,3 +221,13 @@ CREATE TABLE `hr_salary_management`
   PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8 COMMENT = '工资发放管理表';
+
+
+CREATE TABLE `sys_dept_examine_process`
+(
+  `id`                 VARCHAR(32) NOT NULL DEFAULT '' COMMENT 'ID',
+  `dept_id`            VARCHAR(32) NOT NULL DEFAULT '' COMMENT '部门ID',
+  `examine_dept_id`    VARCHAR(32) NOT NULL DEFAULT '' COMMENT '审批部门ID',
+  PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = utf8 COMMENT = '审批流程表';

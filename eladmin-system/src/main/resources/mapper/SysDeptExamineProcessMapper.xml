@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="me.zhengjie.modules.system.domain.mapper.SysDeptExamineProcessMapper">
+    <resultMap id="BaseResultMap"
+               type="me.zhengjie.modules.system.domain.entity.SysDeptExamineProcessDO">
+        <id column="id" property="id"/>
+        <result column="dept_id" property="deptId"/>
+        <result column="examine_dept_id" property="examineDeptId"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+        id, dept_id, examine_dept_id
+    </sql>
+
+    <!--通过部门id查询下一个审批部门-->
+    <select id="queryByDeptId" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM
+        sys_dept_examine_process
+        WHERE
+        dept_id = #{deptId,jdbcType=VARCHAR}
+    </select>
+
+</mapper>
