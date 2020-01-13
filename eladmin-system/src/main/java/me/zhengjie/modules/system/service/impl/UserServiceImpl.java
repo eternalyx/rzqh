@@ -117,7 +117,6 @@ public class UserServiceImpl implements UserService {
 
         user.setUsername(resources.getUsername());
         user.setUserAvatar(resources.getUserAvatar());
-        user.setPassword(passwordEncoder.encode(StringUtils.isEmpty(resources.getPassword()) ? "123456" : resources.getPassword()));
         user.setEmail(resources.getEmail());
         user.setStatus(resources.getStatus());
         user.setRoles(resources.getRoles());

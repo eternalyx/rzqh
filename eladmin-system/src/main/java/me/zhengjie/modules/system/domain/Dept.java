@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -13,37 +14,33 @@ import java.util.Objects;
 import java.util.Set;
 
 /**
-* @author Zheng Jie
-* @date 2019-03-25
-*/
+ * @author Zheng Jie
+ * @date 2019-03-25
+ */
 @Entity
 @Getter
 @Setter
-@Table(name="dept")
+@Table(name = "sys_dept")
 public class Dept implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @NotNull(groups = Update.class)
     private String id;
 
-    @Column(name = "name",nullable = false)
+    @Column(name = "name", nullable = false)
     @NotBlank
     private String name;
 
-    @Column(name = "charge")
-    private String charge;
-
-    @Column(name = "supervisor")
-    private String supervisor;
+    @Column(name = "pid", nullable = false)
+    @NotNull
+    private String pid;
 
     @NotNull
     private Boolean enabled;
 
-    @Column(name = "pid",nullable = false)
     @NotNull
-    private String pid;
+    private int sort;
 
     @JsonIgnore
     @ManyToMany(mappedBy = "depts")
@@ -53,7 +50,12 @@ public class Dept implements Serializable {
     @CreationTimestamp
     private Timestamp createTime;
 
-    public @interface Update {}
+    @Column(name = "update_time")
+    @CreationTimestamp
+    private Timestamp updateTime;
+
+    public @interface Update {
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -20,12 +20,6 @@ public class DeptQueryCriteria{
     @Query(type = Query.Type.INNER_LIKE)
     private String name;
 
-    @Query(type = Query.Type.INNER_LIKE)
-    private String charge;
-
-    @Query(type = Query.Type.INNER_LIKE)
-    private String supervisor;
-
     @Query
     private Boolean enabled;
 

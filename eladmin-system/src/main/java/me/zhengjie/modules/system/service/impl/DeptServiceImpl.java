@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.sql.Timestamp;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -43,7 +44,8 @@ public class DeptServiceImpl implements DeptService {
     @Override
     @Cacheable
     public List<DeptDto> queryAll(DeptQueryCriteria criteria) {
-        return deptMapper.toDto(deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root,criteria,criteriaBuilder)));
+        List<Dept> deptList = deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder));
+        return deptMapper.toDto(deptList);
     }
 
     @Override
@@ -66,7 +68,6 @@ public class DeptServiceImpl implements DeptService {
     }
 
     @Override
-    @Cacheable
     public Object buildTree(List<DeptDto> deptDtos) {
         Set<DeptDto> trees = new LinkedHashSet<>();
         Set<DeptDto> depts= new LinkedHashSet<>();
@@ -74,7 +75,7 @@ public class DeptServiceImpl implements DeptService {
         boolean isChild;
         for (DeptDto deptDTO : deptDtos) {
             isChild = false;
-            if ("0".equals(deptDTO.getPid().toString())) {
+            if ("".equals(deptDTO.getPid())) {
                 trees.add(deptDTO);
             }
             for (DeptDto it : deptDtos) {
@@ -109,6 +110,8 @@ public class DeptServiceImpl implements DeptService {
     @CacheEvict(allEntries = true)
     @Transactional(rollbackFor = Exception.class)
     public DeptDto create(Dept resources) {
+        resources.setId(UUID.randomUUID().toString().replace("-",""));
+        resources.setCreateTime(new Timestamp(new Date().getTime()));
         return deptMapper.toDto(deptRepository.save(resources));
     }
 
@@ -121,7 +124,8 @@ public class DeptServiceImpl implements DeptService {
         }
         Dept dept = deptRepository.findById(resources.getId()).orElseGet(Dept::new);
         ValidationUtil.isNull( dept.getId(),"Dept","id",resources.getId());
-        resources.setId(dept.getId());
+        resources.setCreateTime(dept.getCreateTime());
+        resources.setUpdateTime(new Timestamp(new Date().getTime()));
         deptRepository.save(resources);
     }
 
@@ -140,8 +144,6 @@ public class DeptServiceImpl implements DeptService {
         for (DeptDto deptDTO : deptDtos) {
             Map<String,Object> map = new LinkedHashMap<>();
             map.put("部门名称", deptDTO.getName());
-            map.put("负责人", deptDTO.getCharge());
-            map.put("主管", deptDTO.getSupervisor());
             map.put("部门状态", deptDTO.getEnabled() ? "启用" : "停用");
             map.put("创建日期", deptDTO.getCreateTime());
             list.add(map);
