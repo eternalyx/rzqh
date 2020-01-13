@@ -1,15 +1,11 @@
 package me.zhengjie.domain;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import me.zhengjie.AppRun;
 import me.zhengjie.BaseTest;
 import me.zhengjie.modules.system.domain.entity.SysDeptExamineProcessDO;
 import me.zhengjie.modules.system.domain.mapper.SysDeptExamineProcessMapper;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 /**
  * @author: xiaoqi
