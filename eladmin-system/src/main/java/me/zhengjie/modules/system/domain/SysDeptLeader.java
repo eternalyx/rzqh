@@ -36,8 +36,7 @@ public class SysDeptLeader {
     @Column(name = "level")
     @NonNull
     private String level;
-
-    @Transient
+    
     private String nickname;
 
     public @interface Update {
