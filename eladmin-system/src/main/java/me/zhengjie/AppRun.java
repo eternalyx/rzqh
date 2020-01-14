@@ -21,8 +21,6 @@ import org.springframework.web.bind.annotation.RestController;
 @EnableAsync
 @RestController
 @SpringBootApplication
-@EnableTransactionManagement
-@MapperScan("me.zhengjie.modules.system.domain.mapper")
 public class AppRun {
 
     public static void main(String[] args) {

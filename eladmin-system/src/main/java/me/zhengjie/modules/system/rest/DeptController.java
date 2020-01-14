@@ -11,6 +11,7 @@ import me.zhengjie.modules.system.service.dto.DeptDto;
 import me.zhengjie.modules.system.service.dto.DeptQueryCriteria;
 import me.zhengjie.utils.ExcelUtil;
 import me.zhengjie.utils.ThrowableUtil;
+import me.zhengjie.utils.file.FileUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -49,7 +50,7 @@ public class DeptController {
         // 数据权限
         criteria.setIds(dataScope.getDeptIds());
         List<DeptDto> deptDtos = deptService.queryAll(criteria);
-        new ExcelUtil<DeptDto>(DeptDto.class).exportExcel(deptDtos, "部门数据");
+        new ExcelUtil<DeptDto>(DeptDto.class).exportExcel(deptDtos, "部门数据",response);
     }
 
     @Log("查询部门")

@@ -17,6 +17,10 @@ public class Global {
     private static String fileRootPath;
     private static long fileMaxSize;
     private static long avatarMaxSize;
+    /**
+     * 资源映射路径 前缀
+     */
+    public static final String RESOURCE_PREFIX = "/profile";
 
     public static String getFileRootPath() {
         return fileRootPath;

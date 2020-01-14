@@ -58,7 +58,7 @@ smms:
   token: 1oOP3ykFDI0K6ifmtvU7c8Y1eTWZSlyl
 
 mybatis:
-  mapper-locations: classpath:mapper/*Mapper.xml
+  mapperLocations: classpath*:mapper/**/*Mapper.xml
   mapper-config: classpath:mybatis-config.xml
 
 

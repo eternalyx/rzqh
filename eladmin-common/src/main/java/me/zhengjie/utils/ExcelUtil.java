@@ -7,6 +7,7 @@ import me.zhengjie.annotation.Excels;
 import me.zhengjie.config.Global;
 import me.zhengjie.core.text.Convert;
 import me.zhengjie.exception.BadRequestException;
+import me.zhengjie.utils.file.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddressList;
@@ -15,6 +16,7 @@ import org.apache.poi.xssf.usermodel.XSSFDataValidation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -263,10 +265,22 @@ public class ExcelUtil<T>
      * @param sheetName 工作表的名称
      * @return 结果
      */
-    public void exportExcel(List<T> list, String sheetName)
+    public String exportExcel(List<T> list, String sheetName)
     {
         this.init(list, sheetName, Type.EXPORT);
-        exportExcel();
+        return exportExcel();
+    }
+    /**
+     * 对list数据源将其里面的数据导入到excel表单并下载
+     *
+     * @param list 导出数据集合
+     * @param sheetName 工作表的名称
+     * @param response HttpServletResponse对象
+     * @return 结果
+     */
+    public void exportExcel(List<T> list, String sheetName, HttpServletResponse response) throws IOException {
+        this.init(list, sheetName, Type.EXPORT);
+        FileUtils.writeBytes(getAbsoluteFile(exportExcel()) , response.getOutputStream());
     }
 
     /**
@@ -286,7 +300,7 @@ public class ExcelUtil<T>
      * 
      * @return 结果
      */
-    public void exportExcel()
+    public String exportExcel()
     {
         OutputStream out = null;
         try
@@ -314,6 +328,7 @@ public class ExcelUtil<T>
             String filename = encodingFilename(sheetName);
             out = new FileOutputStream(getAbsoluteFile(filename));
             wb.write(out);
+            return  filename;
         }
         catch (Exception e)
         {
