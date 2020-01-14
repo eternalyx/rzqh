@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.zhengjie.modules.hr.mapper.HrAttendanceMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="me.zhengjie.modules.hr.entity.HrAttendanceEntity" id="hrAttendanceMap">
+        <result property="id" column="id"/>
+        <result property="employeeId" column="employee_id"/>
+        <result property="dueDays" column="due_days"/>
+        <result property="attendanceDays" column="attendance_days"/>
+        <result property="overtimeDays" column="overtime_days"/>
+        <result property="leaveDays" column="leave_days"/>
+        <result property="diseaseDays" column="disease_days"/>
+        <result property="weddingDays" column="wedding_days"/>
+        <result property="funeralDays" column="funeral_days"/>
+        <result property="absenteeismDays" column="absenteeism_days"/>
+        <result property="attendanceDate" column="attendance_date"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="me.zhengjie.modules.hr.entity.HrAttendanceEntity">
+		select * from hr_attendance where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="me.zhengjie.modules.hr.entity.HrAttendanceEntity">
+		select * from hr_attendance
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from hr_attendance 
+	</select>
+	 
+	<insert id="save" parameterType="me.zhengjie.modules.hr.entity.HrAttendanceEntity">
+		insert into hr_attendance
+		(
+			`id`, 
+			`employee_id`, 
+			`due_days`, 
+			`attendance_days`, 
+			`overtime_days`, 
+			`leave_days`, 
+			`disease_days`, 
+			`wedding_days`, 
+			`funeral_days`, 
+			`absenteeism_days`, 
+			`attendance_date`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{id}, 
+			#{employeeId}, 
+			#{dueDays}, 
+			#{attendanceDays}, 
+			#{overtimeDays}, 
+			#{leaveDays}, 
+			#{diseaseDays}, 
+			#{weddingDays}, 
+			#{funeralDays}, 
+			#{absenteeismDays}, 
+			#{attendanceDate}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="me.zhengjie.modules.hr.entity.HrAttendanceEntity">
+		update hr_attendance 
+		<set>
+			<if test="employeeId != null">`employee_id` = #{employeeId}, </if>
+			<if test="dueDays != null">`due_days` = #{dueDays}, </if>
+			<if test="attendanceDays != null">`attendance_days` = #{attendanceDays}, </if>
+			<if test="overtimeDays != null">`overtime_days` = #{overtimeDays}, </if>
+			<if test="leaveDays != null">`leave_days` = #{leaveDays}, </if>
+			<if test="diseaseDays != null">`disease_days` = #{diseaseDays}, </if>
+			<if test="weddingDays != null">`wedding_days` = #{weddingDays}, </if>
+			<if test="funeralDays != null">`funeral_days` = #{funeralDays}, </if>
+			<if test="absenteeismDays != null">`absenteeism_days` = #{absenteeismDays}, </if>
+			<if test="attendanceDate != null">`attendance_date` = #{attendanceDate}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from hr_attendance where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from hr_attendance where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

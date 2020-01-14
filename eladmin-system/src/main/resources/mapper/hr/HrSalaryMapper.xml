@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.zhengjie.modules.hr.mapper.HrSalaryMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="me.zhengjie.modules.hr.entity.HrSalaryEntity" id="hrSalaryMap">
+        <result property="id" column="id"/>
+        <result property="baseSalary" column="base_salary"/>
+        <result property="assessmentSalary" column="assessment_salary"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="me.zhengjie.modules.hr.entity.HrSalaryEntity">
+		select * from hr_salary where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="me.zhengjie.modules.hr.entity.HrSalaryEntity">
+		select * from hr_salary
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from hr_salary 
+	</select>
+	 
+	<insert id="save" parameterType="me.zhengjie.modules.hr.entity.HrSalaryEntity">
+		insert into hr_salary
+		(
+			`id`, 
+			`base_salary`, 
+			`assessment_salary`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{id}, 
+			#{baseSalary}, 
+			#{assessmentSalary}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="me.zhengjie.modules.hr.entity.HrSalaryEntity">
+		update hr_salary 
+		<set>
+			<if test="baseSalary != null">`base_salary` = #{baseSalary}, </if>
+			<if test="assessmentSalary != null">`assessment_salary` = #{assessmentSalary}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from hr_salary where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from hr_salary where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
