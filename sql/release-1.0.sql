@@ -68,13 +68,13 @@ CREATE TABLE `sys_dept`
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8 COMMENT = '部门表';
 
-CREATE TABLE `sys_dept_user_admin`
+CREATE TABLE `sys_dept_leader`
 (
   `dept_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '部门ID',
   `user_id` VARCHAR(32) NOT NULL DEFAULT '' COMMENT '菜单ID',
-  `post`    VARCHAR(32) NOT NULL DEFAULT '' COMMENT '部门岗位 1-主管 2-助理'
+  `level`    VARCHAR(32) NOT NULL DEFAULT '' COMMENT '部门岗位 1-主管 2-助理'
 ) ENGINE = INNODB
-  DEFAULT CHARSET = utf8 COMMENT = '部门用户关联表';
+  DEFAULT CHARSET = utf8 COMMENT = '部门管理表';
 
 CREATE TABLE `hr_employee`
 (
@@ -231,3 +231,48 @@ CREATE TABLE `sys_dept_examine_process`
   PRIMARY KEY (`id`)
 ) ENGINE = INNODB
   DEFAULT CHARSET = utf8 COMMENT = '审批流程表';
+
+
+CREATE TABLE `fl_task`  (
+  `id`              varchar(32) NOT NULL,
+  `business_type`   varchar(50)  NOT NULL COMMENT '业务类型',
+  `business_name`   varchar(255)  NOT NULL COMMENT '业务名称',
+  `business_id`     varchar(32)  NOT NULL COMMENT '业务ID',
+  `title`           varchar(500)  NOT NULL COMMENT '标题',
+  `sender_id`       varchar(32)  NOT NULL COMMENT '发送人ID',
+  `sender_time`     datetime(0) NOT NULL COMMENT '发送时间',
+  `receiver_id`     varchar(32)  NOT NULL COMMENT '接收人ID',
+  `create_time`     datetime(0) NULL DEFAULT NULL COMMENT '创建日期',
+  PRIMARY KEY (`id`)
+) ENGINE = INNODB
+  DEFAULT CHARSET = utf8 COMMENT = '工作流待办事项表';
+
+
+  CREATE TABLE `fl_task_ history`  (
+  `id`              varchar(32)  NOT NULL,
+  `business_type`   varchar(50)  NOT NULL COMMENT '业务类型',
+  `business_name`   varchar(255)  NOT NULL COMMENT '业务名称',
+  `business_id`     varchar(32)  NOT NULL COMMENT '业务ID',
+  `title`           varchar(500)  NOT NULL COMMENT '标题',
+  `sender_id`       varchar(32)  NOT NULL COMMENT '发送人ID',
+  `sender_time`     datetime(0) NOT NULL COMMENT '发送时间',
+  `auditer_id`      varchar(32)  NOT NULL COMMENT '审批人ID',
+  `audit_result`    varchar(50)  NOT NULL COMMENT '审批结果',
+  `audit_opinion`   varchar(255)  NULL DEFAULT NULL COMMENT '审批意见',
+  `audit_time`      datetime(0) NULL DEFAULT NULL COMMENT '审批时间',
+  `receiver_id`     varchar(32)  NULL DEFAULT NULL COMMENT '下一岗处理人ID',
+  `create_time`     datetime(0) NULL DEFAULT NULL COMMENT '创建日期',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8 COMMENT = '工作流审批历史轨迹表';
+
+
+CREATE TABLE `sys_dept_workflow`  (
+  `id`              varchar(32)  NOT NULL,
+  `from_dept_id`    varchar(32)  NOT NULL COMMENT '发启机构',
+  `to_dept_id`      varchar(32)  NOT NULL COMMENT '审批机构',
+  `mode`            varchar(2)  NOT NULL COMMENT '10: 仅助理审批 11：助理审批 再主管审批 20:仅主管审批',
+  `create_time`     datetime(0) NOT NULL COMMENT '创建日期',
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB
+  DEFAULT CHARSET = utf8 COMMENT = '部门审批流配置表';
