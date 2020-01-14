@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.zhengjie.modules.hr.mapper.HrEmployeeMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="me.zhengjie.modules.hr.domain.HrEmployeeEntity" id="hrEmployeeMap">
+        <result property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="certNo" column="cert_no"/>
+        <result property="phone" column="phone"/>
+        <result property="gender" column="gender"/>
+        <result property="email" column="email"/>
+        <result property="bankNo" column="bank_no"/>
+        <result property="socialInsurancePlace" column="social_insurance_place"/>
+        <result property="graduatedUniversity" column="graduated_university"/>
+        <result property="emergencyContact" column="emergency_contact"/>
+        <result property="emergencyContactPhone" column="emergency_contact_phone"/>
+        <result property="address" column="address"/>
+        <result property="openingBank" column="opening_bank"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="status" column="status"/>
+        <result property="onboardingDate" column="onboarding_date"/>
+        <result property="leaveDate" column="leave_date"/>
+        <result property="contractBeginDate" column="contract_begin_date"/>
+        <result property="contractEndDate" column="contract_end_date"/>
+        <result property="resumeUrl" column="resume_url"/>
+        <result property="certLeaveUrl" column="cert_leave_url"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="hrEmployeeMap">
+        select *
+        from hr_employee
+        where id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="hrEmployeeMap">
+        select * from hr_employee
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(*)
+        from hr_employee
+    </select>
+
+    <insert id="save" parameterType="me.zhengjie.modules.hr.domain.HrEmployeeEntity">
+        insert into hr_employee
+        (`id`,
+         `name`,
+         `cert_no`,
+         `phone`,
+         `gender`,
+         `email`,
+         `bank_no`,
+         `social_insurance_place`,
+         `graduated_university`,
+         `emergency_contact`,
+         `emergency_contact_phone`,
+         `address`,
+         `opening_bank`,
+         `dept_id`,
+         `status`,
+         `onboarding_date`,
+         `leave_date`,
+         `contract_begin_date`,
+         `contract_end_date`,
+         `resume_url`,
+         `cert_leave_url`,
+         `create_time`,
+         `update_time`)
+        values (#{id},
+                #{name},
+                #{certNo},
+                #{phone},
+                #{gender},
+                #{email},
+                #{bankNo},
+                #{socialInsurancePlace},
+                #{graduatedUniversity},
+                #{emergencyContact},
+                #{emergencyContactPhone},
+                #{address},
+                #{openingBank},
+                #{deptId},
+                #{status},
+                #{onboardingDate},
+                #{leaveDate},
+                #{contractBeginDate},
+                #{contractEndDate},
+                #{resumeUrl},
+                #{certLeaveUrl},
+                #{createTime},
+                #{updateTime})
+    </insert>
+
+    <update id="update" parameterType="me.zhengjie.modules.hr.domain.HrEmployeeEntity">
+        update hr_employee
+        <set>
+            <if test="name != null">`name` = #{name},</if>
+            <if test="certNo != null">`cert_no` = #{certNo},</if>
+            <if test="phone != null">`phone` = #{phone},</if>
+            <if test="gender != null">`gender` = #{gender},</if>
+            <if test="email != null">`email` = #{email},</if>
+            <if test="bankNo != null">`bank_no` = #{bankNo},</if>
+            <if test="socialInsurancePlace != null">`social_insurance_place` = #{socialInsurancePlace},</if>
+            <if test="graduatedUniversity != null">`graduated_university` = #{graduatedUniversity},</if>
+            <if test="emergencyContact != null">`emergency_contact` = #{emergencyContact},</if>
+            <if test="emergencyContactPhone != null">`emergency_contact_phone` = #{emergencyContactPhone},</if>
+            <if test="address != null">`address` = #{address},</if>
+            <if test="openingBank != null">`opening_bank` = #{openingBank},</if>
+            <if test="deptId != null">`dept_id` = #{deptId},</if>
+            <if test="status != null">`status` = #{status},</if>
+            <if test="onboardingDate != null">`onboarding_date` = #{onboardingDate},</if>
+            <if test="leaveDate != null">`leave_date` = #{leaveDate},</if>
+            <if test="contractBeginDate != null">`contract_begin_date` = #{contractBeginDate},</if>
+            <if test="contractEndDate != null">`contract_end_date` = #{contractEndDate},</if>
+            <if test="resumeUrl != null">`resume_url` = #{resumeUrl},</if>
+            <if test="certLeaveUrl != null">`cert_leave_url` = #{certLeaveUrl},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from hr_employee
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from hr_employee where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
