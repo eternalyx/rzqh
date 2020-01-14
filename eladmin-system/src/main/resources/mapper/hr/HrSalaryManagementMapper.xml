@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.zhengjie.modules.hr.mapper.HrSalaryManagementMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="me.zhengjie.modules.hr.entity.HrSalaryManagementEntity" id="hrSalaryManagementMap">
+        <result property="id" column="id"/>
+        <result property="salaryDate" column="salary_date"/>
+        <result property="employeeId" column="employee_id"/>
+        <result property="status" column="status"/>
+        <result property="subsidySalary" column="subsidy_salary"/>
+        <result property="overtimeSalary" column="overtime_salary"/>
+        <result property="royaltySalary" column="royalty_salary"/>
+        <result property="attendanceDeduction" column="attendance_deduction"/>
+        <result property="otherDeduction" column="other_deduction"/>
+        <result property="wagesSalary" column="wages_salary"/>
+        <result property="personalSocialSecurityTotalCost" column="personal_social_security_total_cost"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="me.zhengjie.modules.hr.entity.HrSalaryManagementEntity">
+		select * from hr_salary_management where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="me.zhengjie.modules.hr.entity.HrSalaryManagementEntity">
+		select * from hr_salary_management
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from hr_salary_management 
+	</select>
+	 
+	<insert id="save" parameterType="me.zhengjie.modules.hr.entity.HrSalaryManagementEntity">
+		insert into hr_salary_management
+		(
+			`id`, 
+			`salary_date`, 
+			`employee_id`, 
+			`status`, 
+			`subsidy_salary`, 
+			`overtime_salary`, 
+			`royalty_salary`, 
+			`attendance_deduction`, 
+			`other_deduction`, 
+			`wages_salary`, 
+			`personal_social_security_total_cost`
+		)
+		values
+		(
+			#{id}, 
+			#{salaryDate}, 
+			#{employeeId}, 
+			#{status}, 
+			#{subsidySalary}, 
+			#{overtimeSalary}, 
+			#{royaltySalary}, 
+			#{attendanceDeduction}, 
+			#{otherDeduction}, 
+			#{wagesSalary}, 
+			#{personalSocialSecurityTotalCost}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="me.zhengjie.modules.hr.entity.HrSalaryManagementEntity">
+		update hr_salary_management 
+		<set>
+			<if test="salaryDate != null">`salary_date` = #{salaryDate}, </if>
+			<if test="employeeId != null">`employee_id` = #{employeeId}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="subsidySalary != null">`subsidy_salary` = #{subsidySalary}, </if>
+			<if test="overtimeSalary != null">`overtime_salary` = #{overtimeSalary}, </if>
+			<if test="royaltySalary != null">`royalty_salary` = #{royaltySalary}, </if>
+			<if test="attendanceDeduction != null">`attendance_deduction` = #{attendanceDeduction}, </if>
+			<if test="otherDeduction != null">`other_deduction` = #{otherDeduction}, </if>
+			<if test="wagesSalary != null">`wages_salary` = #{wagesSalary}, </if>
+			<if test="personalSocialSecurityTotalCost != null">`personal_social_security_total_cost` = #{personalSocialSecurityTotalCost}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from hr_salary_management where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from hr_salary_management where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.zhengjie.modules.hr.mapper.HrSocialSecurityDetailMapper">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="me.zhengjie.modules.hr.entity.HrSocialSecurityDetailEntity" id="hrSocialSecurityDetailMap">
+        <result property="id" column="id"/>
+        <result property="billDate" column="bill_date"/>
+        <result property="costDate" column="cost_date"/>
+        <result property="baseSocialSecurity" column="base_social_security"/>
+        <result property="baseProvidentFund" column="base_provident_fund"/>
+        <result property="personalSocialSecurityCost" column="personal_social_security_cost"/>
+        <result property="personalProvidentFundCost" column="personal_provident_fund_cost"/>
+        <result property="companySocialSecurityCost" column="company_social_security_cost"/>
+        <result property="companyProvidentFundCost" column="company_provident_fund_cost"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+	<select id="queryObject" resultType="me.zhengjie.modules.hr.entity.HrSocialSecurityDetailEntity">
+		select * from hr_social_security_detail where id = #{value}
+	</select>
+
+	<select id="queryList" resultType="me.zhengjie.modules.hr.entity.HrSocialSecurityDetailEntity">
+		select * from hr_social_security_detail
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+			<otherwise>
+                order by id desc
+			</otherwise>
+        </choose>
+		<if test="offset != null and limit != null">
+			limit #{offset}, #{limit}
+		</if>
+	</select>
+	
+ 	<select id="queryTotal" resultType="int">
+		select count(*) from hr_social_security_detail 
+	</select>
+	 
+	<insert id="save" parameterType="me.zhengjie.modules.hr.entity.HrSocialSecurityDetailEntity">
+		insert into hr_social_security_detail
+		(
+			`id`, 
+			`bill_date`, 
+			`cost_date`, 
+			`base_social_security`, 
+			`base_provident_fund`, 
+			`personal_social_security_cost`, 
+			`personal_provident_fund_cost`, 
+			`company_social_security_cost`, 
+			`company_provident_fund_cost`, 
+			`create_time`, 
+			`update_time`
+		)
+		values
+		(
+			#{id}, 
+			#{billDate}, 
+			#{costDate}, 
+			#{baseSocialSecurity}, 
+			#{baseProvidentFund}, 
+			#{personalSocialSecurityCost}, 
+			#{personalProvidentFundCost}, 
+			#{companySocialSecurityCost}, 
+			#{companyProvidentFundCost}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	 
+	<update id="update" parameterType="me.zhengjie.modules.hr.entity.HrSocialSecurityDetailEntity">
+		update hr_social_security_detail 
+		<set>
+			<if test="billDate != null">`bill_date` = #{billDate}, </if>
+			<if test="costDate != null">`cost_date` = #{costDate}, </if>
+			<if test="baseSocialSecurity != null">`base_social_security` = #{baseSocialSecurity}, </if>
+			<if test="baseProvidentFund != null">`base_provident_fund` = #{baseProvidentFund}, </if>
+			<if test="personalSocialSecurityCost != null">`personal_social_security_cost` = #{personalSocialSecurityCost}, </if>
+			<if test="personalProvidentFundCost != null">`personal_provident_fund_cost` = #{personalProvidentFundCost}, </if>
+			<if test="companySocialSecurityCost != null">`company_social_security_cost` = #{companySocialSecurityCost}, </if>
+			<if test="companyProvidentFundCost != null">`company_provident_fund_cost` = #{companyProvidentFundCost}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		where id = #{id}
+	</update>
+	
+	<delete id="delete">
+		delete from hr_social_security_detail where id = #{value}
+	</delete>
+	
+	<delete id="deleteBatch">
+		delete from hr_social_security_detail where id in 
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
