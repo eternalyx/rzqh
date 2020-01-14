@@ -17,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -101,6 +102,17 @@ public class DeptController {
         } catch (Throwable e) {
             ThrowableUtil.throwForeignKeyException(e, "所选部门中存在岗位或者角色关联，请取消关联后再试");
         }
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+ 
+    @PreAuthorize("@el.check('dept:edit')")
+    @PostMapping("/importData")
+    @ResponseBody
+    public ResponseEntity<Object> importData(MultipartFile file) throws Exception
+    {
+        ExcelUtil<DeptDto> util = new ExcelUtil<DeptDto>(DeptDto.class);
+        List<DeptDto> deptDtos = util.importExcel(file.getInputStream());
         return new ResponseEntity<>(HttpStatus.OK);
     }
 }

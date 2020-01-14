@@ -1,8 +1,7 @@
-package me.zhengjie.modules.system.domain.mapper;
-
-import org.apache.ibatis.annotations.Param;
+package me.zhengjie.modules.system.mapper;
 
 import me.zhengjie.modules.system.domain.entity.SysDeptExamineProcessDO;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * @author: xiaoqi

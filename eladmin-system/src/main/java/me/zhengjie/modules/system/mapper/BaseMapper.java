@@ -1,4 +1,4 @@
-package me.zhengjie.modules.system.domain.mapper;
+package me.zhengjie.modules.system.mapper;
 
 /**
  * @author: xiaoqi

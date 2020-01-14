@@ -280,6 +280,10 @@ public class ExcelUtil<T>
      */
     public void exportExcel(List<T> list, String sheetName, HttpServletResponse response) throws IOException {
         this.init(list, sheetName, Type.EXPORT);
+        response.setCharacterEncoding("utf-8");
+        response.setContentType("multipart/form-data");
+        response.setHeader("Content-Disposition",
+                "attachment;fileName=" + DateUtils.getTime()+".xlsx");
         FileUtils.writeBytes(getAbsoluteFile(exportExcel()) , response.getOutputStream());
     }
 

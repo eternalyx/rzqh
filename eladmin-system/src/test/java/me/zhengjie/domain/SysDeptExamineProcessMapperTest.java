@@ -1,10 +1,10 @@
 package me.zhengjie.domain;
 
+import me.zhengjie.modules.system.mapper.SysDeptExamineProcessMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import me.zhengjie.BaseTest;
 import me.zhengjie.modules.system.domain.entity.SysDeptExamineProcessDO;
-import me.zhengjie.modules.system.domain.mapper.SysDeptExamineProcessMapper;
 import org.junit.Test;
 
 /**
