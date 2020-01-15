@@ -59,7 +59,7 @@ public class Dept implements Serializable {
      * 不存在该字段
      */
     @Transient
-    private List<SysDeptLeader> deptLeaderList;
+    private List<DeptLeader> deptLeaderList;
 
     public @interface Update {
     }

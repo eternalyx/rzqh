@@ -72,6 +72,7 @@ public class DataScope {
     }
 
 
+
     public List<String> getDeptChildren(List<Dept> deptList) {
         List<String> list = new ArrayList<>();
         deptList.forEach(dept -> {

@@ -4,6 +4,7 @@ import cn.hutool.core.collection.CollectionUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import me.zhengjie.aop.log.Log;
+import me.zhengjie.config.BusinessDataScop;
 import me.zhengjie.config.DataScope;
 import me.zhengjie.modules.system.domain.Dept;
 import me.zhengjie.modules.system.service.DeptService;
@@ -38,9 +39,12 @@ public class DeptController {
 
     private final DataScope dataScope;
 
-    public DeptController(DeptService deptService, DataScope dataScope) {
+    private final BusinessDataScop businessDataScop;
+
+    public DeptController(DeptService deptService, DataScope dataScope , BusinessDataScop businessDataScop) {
         this.deptService = deptService;
         this.dataScope = dataScope;
+        this.businessDataScop = businessDataScop;
     }
 
     @Log("导出部门数据")
@@ -49,6 +53,7 @@ public class DeptController {
     @PreAuthorize("@el.check('dept:list')")
     public void export(HttpServletResponse response, DeptQueryCriteria criteria) throws IOException {
         // 数据权限
+        businessDataScop.getDeptIds();
         criteria.setIds(dataScope.getDeptIds());
         List<DeptDto> deptDtos = deptService.queryAll(criteria);
         new ExcelUtil<DeptDto>(DeptDto.class).exportExcel(deptDtos, "部门数据",response);

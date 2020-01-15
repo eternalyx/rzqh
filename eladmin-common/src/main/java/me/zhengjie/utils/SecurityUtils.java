@@ -31,4 +31,8 @@ public class SecurityUtils {
         Object obj = getUserDetails();
         return new JSONObject(obj).get("username", String.class);
     }
+    public static String getUserId(){
+        Object obj = getUserDetails();
+        return new JSONObject(obj).get("id", String.class);
+    }
 }

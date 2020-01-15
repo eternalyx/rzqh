@@ -3,9 +3,7 @@ package me.zhengjie.modules.system.domain;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
-import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NonNull;
@@ -19,10 +17,10 @@ import lombok.Setter;
 @Table(name = "sys_dept_leader")
 @Getter
 @Setter
-public class SysDeptLeader {
+public class DeptLeader {
 
     @Id
-    @NotNull(groups = {SysDeptLeader.Update.class})
+    @NotNull(groups = {DeptLeader.Update.class})
     private String id;
 
     @Column(name = "dept_id")
