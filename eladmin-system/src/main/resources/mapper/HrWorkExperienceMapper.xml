@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="me.zhengjie.modules.hr.mapper.HrWorkExperienceMapper">
+
+    <!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="me.zhengjie.modules.hr.domain.HrWorkExperienceEntity" id="hrWorkExperienceMap">
+        <result property="id" column="id"/>
+        <result property="employeeId" column="employee_id"/>
+        <result property="postName" column="post_name"/>
+        <result property="companyName" column="company_name"/>
+        <result property="beginDate" column="begin_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <select id="queryObject" resultMap="hrWorkExperienceMap">
+        select *
+        from hr_work_experience
+        where id = #{value}
+    </select>
+
+    <select id="queryList" resultMap="hrWorkExperienceMap">
+        select * from hr_work_experience
+        <choose>
+            <when test="sidx != null and sidx.trim() != ''">
+                order by ${sidx} ${order}
+            </when>
+            <otherwise>
+                order by id desc
+            </otherwise>
+        </choose>
+        <if test="offset != null and limit != null">
+            limit #{offset}, #{limit}
+        </if>
+    </select>
+
+    <select id="queryTotal" resultType="int">
+        select count(*)
+        from hr_work_experience
+    </select>
+
+    <insert id="save" parameterType="me.zhengjie.modules.hr.domain.HrWorkExperienceEntity">
+        insert into hr_work_experience
+        (`id`,
+         `employee_id`,
+         `post_name`,
+         `company_name`,
+         `begin_date`,
+         `end_date`,
+         `create_time`,
+         `update_time`,
+         `remark`)
+        values (#{id},
+                #{employeeId},
+                #{postName},
+                #{companyName},
+                #{beginDate},
+                #{endDate},
+                #{createTime},
+                #{updateTime},
+                #{remark})
+    </insert>
+
+    <update id="update" parameterType="me.zhengjie.modules.hr.domain.HrWorkExperienceEntity">
+        update hr_work_experience
+        <set>
+            <if test="employeeId != null">`employee_id` = #{employeeId},</if>
+            <if test="postName != null">`post_name` = #{postName},</if>
+            <if test="companyName != null">`company_name` = #{companyName},</if>
+            <if test="beginDate != null">`begin_date` = #{beginDate},</if>
+            <if test="endDate != null">`end_date` = #{endDate},</if>
+            <if test="createTime != null">`create_time` = #{createTime},</if>
+            <if test="updateTime != null">`update_time` = #{updateTime},</if>
+            <if test="remark != null">`remark` = #{remark}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <delete id="delete">
+        delete
+        from hr_work_experience
+        where id = #{value}
+    </delete>
+
+    <delete id="deleteBatch">
+        delete from hr_work_experience where id in
+        <foreach item="id" collection="array" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>

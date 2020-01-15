@@ -10,6 +10,7 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.List;
+import me.zhengjie.modules.system.domain.SysDeptLeader;
 
 /**
  * @author Zheng Jie
@@ -30,4 +31,7 @@ public class DeptDto implements Serializable {
     private List<DeptDto> children;
     @Excel(name = "创建日期", width = 30, dateFormat = "yyyy-MM-dd", type = Type.EXPORT)
     private Timestamp createTime;
+    @Excel(name = "更新时间", width = 30, dateFormat = "yyyy-MM-dd", type = Type.EXPORT)
+    private Timestamp updateTime;
+    private List<SysDeptLeader> deptLeaderList;
 }

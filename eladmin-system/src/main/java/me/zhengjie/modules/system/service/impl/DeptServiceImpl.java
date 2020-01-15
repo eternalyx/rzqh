@@ -2,6 +2,7 @@ package me.zhengjie.modules.system.service.impl;
 
 import me.zhengjie.exception.BadRequestException;
 import me.zhengjie.modules.system.domain.Dept;
+import me.zhengjie.modules.system.repository.SysDeptLeaderRepository;
 import me.zhengjie.modules.system.service.dto.DeptDto;
 import me.zhengjie.modules.system.service.dto.DeptQueryCriteria;
 import me.zhengjie.utils.FileUtil;
@@ -10,6 +11,7 @@ import me.zhengjie.utils.ValidationUtil;
 import me.zhengjie.modules.system.repository.DeptRepository;
 import me.zhengjie.modules.system.service.DeptService;
 import me.zhengjie.modules.system.service.mapper.DeptMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -32,19 +34,21 @@ import java.util.stream.Collectors;
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true, rollbackFor = Exception.class)
 public class DeptServiceImpl implements DeptService {
 
-    private final DeptRepository deptRepository;
+    @Autowired
+    private DeptRepository deptRepository;
 
-    private final DeptMapper deptMapper;
+    @Autowired
+    private DeptMapper deptMapper;
 
-    public DeptServiceImpl(DeptRepository deptRepository, DeptMapper deptMapper) {
-        this.deptRepository = deptRepository;
-        this.deptMapper = deptMapper;
-    }
+    @Autowired
+    private SysDeptLeaderRepository sysDeptLeaderRepository;
 
     @Override
-    @Cacheable
     public List<DeptDto> queryAll(DeptQueryCriteria criteria) {
         List<Dept> deptList = deptRepository.findAll((root, criteriaQuery, criteriaBuilder) -> QueryHelp.getPredicate(root, criteria, criteriaBuilder));
+        for(Dept dept : deptList){
+            dept.setDeptLeaderList(sysDeptLeaderRepository.findLeaderByDeptId(dept.getId()));
+        }
         return deptMapper.toDto(deptList);
     }
 

@@ -1,6 +1,7 @@
 package me.zhengjie.modules.system.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.CreationTimestamp;
@@ -53,6 +54,12 @@ public class Dept implements Serializable {
     @Column(name = "update_time")
     @CreationTimestamp
     private Timestamp updateTime;
+
+    /**
+     * 不存在该字段
+     */
+    @Transient
+    private List<SysDeptLeader> deptLeaderList;
 
     public @interface Update {
     }
